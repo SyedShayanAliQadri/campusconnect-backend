@@ -28,7 +28,7 @@ const connect = async () => {
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://campusconnect-web.netlify.app/"
+    "https://campusconnect-web.netlify.app"
   ],
   credentials: true,
 }));
