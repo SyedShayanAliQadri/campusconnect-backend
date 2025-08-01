@@ -62,3 +62,30 @@ export const confirm = async (req, res, next) => {
     next(err);
   }
 };
+
+export const createOrder = async (req, res, next) => {
+  try {
+    const { gigId, sellerId, price } = req.body;
+
+    const gig = await Gig.findById(gigId);
+    if (!gig) return next(createError(404, "Gig not found"));
+
+    const newOrder = new Order({
+      gigId: gigId,
+      img: gig.cover,
+      title: gig.title,
+      buyerId: req.userId,
+      sellerId: sellerId,
+      price: parseFloat(price),
+      isCompleted: true, // ✅ mark as complete since no Stripe involved
+    });
+
+    await newOrder.save();
+
+    res.status(201).send("Order created successfully.");
+  } catch (err) {
+    next(err);
+  }
+};
+
+
